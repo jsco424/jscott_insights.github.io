@@ -92,8 +92,61 @@
     .exp-bullets { padding-left: 1.1rem; }
     .exp-bullets li { font-size: 0.92rem; color: #ccc; margin-bottom: 0.35rem; }
 
-    /* SKILLS */
-    .skills-grid { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+    /* SKILLS SLIDESHOW */
+    .skills-slideshow {
+      position: relative; background: var(--surface);
+      border: 1px solid var(--border); border-radius: 10px;
+      overflow: hidden; height: 260px; margin-bottom: 2rem;
+    }
+    .slide { position: absolute; inset: 0; opacity: 0; transition: opacity 0.6s ease; padding: 2rem; display: flex; flex-direction: column; justify-content: space-between; }
+    .slide.active { opacity: 1; }
+    .slide-label { font-size: 0.7rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 0.6rem; }
+    .slide-title { font-size: 1.3rem; font-weight: 700; margin-bottom: 1rem; }
+
+    /* SQL slide */
+    .sql-lines { font-family: 'Courier New', monospace; font-size: 0.78rem; line-height: 1.9; color: #aaa; }
+    .sql-lines .kw { color: var(--accent); }
+    .sql-lines .fn { color: #c084fc; }
+    .sql-lines .str { color: #86efac; }
+    .sql-cursor { display: inline-block; width: 7px; height: 13px; background: var(--accent); vertical-align: middle; animation: blink 1s step-end infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    /* Tableau slide */
+    .chart-bars { display: flex; align-items: flex-end; gap: 10px; height: 110px; padding: 0 0.5rem; }
+    .bar-wrap { display: flex; flex-direction: column; align-items: center; gap: 6px; flex: 1; }
+    .bar { width: 100%; background: var(--accent); border-radius: 3px 3px 0 0; transition: height 0.8s cubic-bezier(.4,0,.2,1); }
+    .bar-lbl { font-size: 0.68rem; color: var(--muted); }
+
+    /* Python slide */
+    .py-lines { font-family: 'Courier New', monospace; font-size: 0.78rem; line-height: 1.9; color: #aaa; }
+    .py-lines .kw { color: #c084fc; }
+    .py-lines .fn { color: var(--accent); }
+    .py-lines .str { color: #86efac; }
+    .py-lines .cm { color: #555; }
+
+    /* Looker slide */
+    .metrics-row { display: flex; gap: 10px; margin-bottom: 12px; }
+    .metric-card { flex: 1; background: var(--bg); border: 1px solid var(--border); border-radius: 6px; padding: 0.7rem; }
+    .metric-val { font-size: 1.3rem; font-weight: 700; color: var(--accent); }
+    .metric-lbl { font-size: 0.68rem; color: var(--muted); margin-top: 2px; }
+    .spark { display: flex; align-items: flex-end; gap: 3px; height: 28px; margin-top: 6px; }
+    .spark-bar { flex: 1; background: var(--accent); opacity: 0.4; border-radius: 2px; }
+
+    /* Salesforce slide */
+    .funnel { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+    .funnel-stage { border-radius: 4px; height: 30px; display: flex; align-items: center; justify-content: space-between; padding: 0 1rem; font-size: 0.75rem; transition: width 0.8s cubic-bezier(.4,0,.2,1); }
+    .funnel-name { color: #000; font-weight: 600; }
+    .funnel-val { color: #000; opacity: 0.7; }
+
+    /* Controls */
+    .slide-controls { display: flex; align-items: center; justify-content: center; gap: 1rem; margin-top: 1rem; }
+    .slide-dots { display: flex; gap: 6px; }
+    .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--border); cursor: pointer; transition: background 0.3s; }
+    .dot.active { background: var(--accent); }
+    .slide-btn { background: var(--surface); border: 1px solid var(--border); color: var(--text); width: 32px; height: 32px; border-radius: 50%; cursor: pointer; font-size: 1rem; display: flex; align-items: center; justify-content: center; transition: border-color 0.2s; }
+    .slide-btn:hover { border-color: var(--accent); }
+
+    .skills-tags-row { display: flex; flex-wrap: wrap; gap: 0.6rem; }
     .skill-tag {
       background: var(--surface); border: 1px solid var(--border);
       border-radius: 4px; padding: 0.35rem 0.85rem;
@@ -201,7 +254,122 @@
   <!-- SKILLS -->
   <section id="skills">
     <h2>Skills</h2>
-    <div class="skills-grid">
+
+    <div class="skills-slideshow" id="slideshow">
+
+      <!-- SQL -->
+      <div class="slide active" id="slide-0">
+        <div>
+          <div class="slide-label">Tool</div>
+          <div class="slide-title">SQL</div>
+          <div class="sql-lines">
+            <div><span class="kw">WITH</span> cohort <span class="kw">AS</span> (</div>
+            <div>&nbsp;&nbsp;<span class="kw">SELECT</span> user_id, <span class="fn">DATE_TRUNC</span>(<span class="str">'month'</span>, created_at) <span class="kw">AS</span> cohort_month</div>
+            <div>&nbsp;&nbsp;<span class="kw">FROM</span> users</div>
+            <div>)</div>
+            <div><span class="kw">SELECT</span> cohort_month, <span class="fn">COUNT</span>(DISTINCT user_id) <span class="kw">AS</span> users<span class="sql-cursor"></span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tableau -->
+      <div class="slide" id="slide-1">
+        <div>
+          <div class="slide-label">Tool</div>
+          <div class="slide-title">Tableau</div>
+          <div class="chart-bars" id="tableau-bars">
+            <div class="bar-wrap"><div class="bar" style="height:0%" data-h="62%"></div><div class="bar-lbl">Q1</div></div>
+            <div class="bar-wrap"><div class="bar" style="height:0%" data-h="85%"></div><div class="bar-lbl">Q2</div></div>
+            <div class="bar-wrap"><div class="bar" style="height:0%" data-h="54%"></div><div class="bar-lbl">Q3</div></div>
+            <div class="bar-wrap"><div class="bar" style="height:0%" data-h="93%"></div><div class="bar-lbl">Q4</div></div>
+            <div class="bar-wrap"><div class="bar" style="height:0%" data-h="71%"></div><div class="bar-lbl">Q5</div></div>
+            <div class="bar-wrap"><div class="bar" style="height:0%" data-h="88%"></div><div class="bar-lbl">Q6</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Python -->
+      <div class="slide" id="slide-2">
+        <div>
+          <div class="slide-label">Tool</div>
+          <div class="slide-title">Python</div>
+          <div class="py-lines">
+            <div><span class="kw">import</span> pandas <span class="kw">as</span> pd</div>
+            <div><span class="cm"># Load and clean campaign data</span></div>
+            <div>df = pd.<span class="fn">read_csv</span>(<span class="str">'campaigns.csv'</span>)</div>
+            <div>df[<span class="str">'ctr'</span>] = df[<span class="str">'clicks'</span>] / df[<span class="str">'impressions'</span>]</div>
+            <div>top = df.<span class="fn">groupby</span>(<span class="str">'channel'</span>)[<span class="str">'ctr'</span>].<span class="fn">mean</span>().<span class="fn">sort_values</span>()<span class="sql-cursor"></span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Looker -->
+      <div class="slide" id="slide-3">
+        <div>
+          <div class="slide-label">Tool</div>
+          <div class="slide-title">Looker</div>
+          <div class="metrics-row">
+            <div class="metric-card">
+              <div class="metric-val" id="m1">0</div>
+              <div class="metric-lbl">Pipeline Generated</div>
+              <div class="spark">
+                <div class="spark-bar" style="height:40%"></div><div class="spark-bar" style="height:55%"></div>
+                <div class="spark-bar" style="height:45%"></div><div class="spark-bar" style="height:70%"></div>
+                <div class="spark-bar" style="height:60%"></div><div class="spark-bar" style="height:90%"></div>
+              </div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-val" id="m2">0%</div>
+              <div class="metric-lbl">Conversion Rate</div>
+              <div class="spark">
+                <div class="spark-bar" style="height:30%"></div><div class="spark-bar" style="height:50%"></div>
+                <div class="spark-bar" style="height:55%"></div><div class="spark-bar" style="height:65%"></div>
+                <div class="spark-bar" style="height:72%"></div><div class="spark-bar" style="height:80%"></div>
+              </div>
+            </div>
+            <div class="metric-card">
+              <div class="metric-val" id="m3">0</div>
+              <div class="metric-lbl">Leads This Month</div>
+              <div class="spark">
+                <div class="spark-bar" style="height:50%"></div><div class="spark-bar" style="height:60%"></div>
+                <div class="spark-bar" style="height:45%"></div><div class="spark-bar" style="height:75%"></div>
+                <div class="spark-bar" style="height:80%"></div><div class="spark-bar" style="height:95%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Salesforce -->
+      <div class="slide" id="slide-4">
+        <div>
+          <div class="slide-label">Tool</div>
+          <div class="slide-title">Salesforce</div>
+          <div class="funnel" id="sf-funnel">
+            <div class="funnel-stage" style="width:100%; background:#00c6a7;"><span class="funnel-name">Leads</span><span class="funnel-val">2,400</span></div>
+            <div class="funnel-stage" style="width:0%; background:#00a88d;" data-w="82%"><span class="funnel-name">Qualified</span><span class="funnel-val">1,960</span></div>
+            <div class="funnel-stage" style="width:0%; background:#008a73;" data-w="62%"><span class="funnel-name">Opportunity</span><span class="funnel-val">1,200</span></div>
+            <div class="funnel-stage" style="width:0%; background:#006b59;" data-w="40%"><span class="funnel-name">Proposal</span><span class="funnel-val">740</span></div>
+            <div class="funnel-stage" style="width:0%; background:#004d40;" data-w="22%"><span class="funnel-name">Closed Won</span><span class="funnel-val">420</span></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="slide-controls">
+      <button class="slide-btn" id="prev-btn">&#8592;</button>
+      <div class="slide-dots" id="dots">
+        <div class="dot active" data-i="0"></div>
+        <div class="dot" data-i="1"></div>
+        <div class="dot" data-i="2"></div>
+        <div class="dot" data-i="3"></div>
+        <div class="dot" data-i="4"></div>
+      </div>
+      <button class="slide-btn" id="next-btn">&#8594;</button>
+    </div>
+
+    <div class="skills-tags-row" style="margin-top:2rem;">
       <span class="skill-tag">SQL</span>
       <span class="skill-tag">Python</span>
       <span class="skill-tag">Tableau</span>
@@ -265,5 +433,63 @@
     Built with HTML & CSS · Hosted on GitHub Pages
   </footer>
 
+  <script>
+    const total = 5;
+    let cur = 0, timer;
+
+    function goTo(n) {
+      document.getElementById('slide-' + cur).classList.remove('active');
+      document.querySelectorAll('.dot')[cur].classList.remove('active');
+      cur = (n + total) % total;
+      document.getElementById('slide-' + cur).classList.add('active');
+      document.querySelectorAll('.dot')[cur].classList.add('active');
+      onEnter(cur);
+    }
+
+    function onEnter(i) {
+      if (i === 1) animateBars();
+      if (i === 3) animateLooker();
+      if (i === 4) animateFunnel();
+    }
+
+    function animateBars() {
+      document.querySelectorAll('#tableau-bars .bar').forEach((b, idx) => {
+        b.style.height = '0%';
+        setTimeout(() => { b.style.height = b.dataset.h; }, idx * 80);
+      });
+    }
+
+    function animateLooker() {
+      const targets = [{el:'m1', end:4200000, prefix:'
+, suffix:'', div:1000000, dec:1},{el:'m2', end:18.4, prefix:'', suffix:'%', div:1, dec:1},{el:'m3', end:312, prefix:'', suffix:'', div:1, dec:0}];
+      targets.forEach(t => {
+        let start = 0, steps = 40, step = 0;
+        const iv = setInterval(() => {
+          step++;
+          const val = t.end * (step / steps);
+          const disp = t.div > 1 ? (val / t.div).toFixed(t.dec) + 'M' : val.toFixed(t.dec);
+          document.getElementById(t.el).textContent = t.prefix + disp + t.suffix;
+          if (step >= steps) clearInterval(iv);
+        }, 30);
+      });
+    }
+
+    function animateFunnel() {
+      document.querySelectorAll('#sf-funnel .funnel-stage').forEach((s, idx) => {
+        if (idx === 0) return;
+        s.style.width = '0%';
+        setTimeout(() => { s.style.width = s.dataset.w; }, idx * 120);
+      });
+    }
+
+    document.getElementById('next-btn').onclick = () => { goTo(cur + 1); resetTimer(); };
+    document.getElementById('prev-btn').onclick = () => { goTo(cur - 1); resetTimer(); };
+    document.querySelectorAll('.dot').forEach(d => {
+      d.onclick = () => { goTo(+d.dataset.i); resetTimer(); };
+    });
+
+    function resetTimer() { clearInterval(timer); timer = setInterval(() => goTo(cur + 1), 4000); }
+    timer = setInterval(() => goTo(cur + 1), 4000);
+  </script>
 </body>
 </html>
