@@ -1,0 +1,17 @@
+
+{
+  "id": "saas-attribution",
+  "title": "Proving LinkedIn Attribution for a $500K/Qtr SaaS Client",
+  "type": "External",
+  "industry": "SaaS / B2B Marketing",
+  "tags": ["Attribution", "CRM Analytics", "Cross-Functional", "Measurement"],
+  "metrics": [
+    { "value": "30%", "label": "Closed Won Revenue Attributed to LinkedIn" },
+    { "value": "42%", "label": "Reduction in Buying Cycle (156 → 90 days)" },
+    { "value": "$500K", "label": "Quarterly Spend Reinstated" }
+  ],
+  "problem": "A large SaaS client running $500K/quarter in LinkedIn media couldn't connect ad exposure to closed-won revenue. With the agency seeing zero measurable ROAS, LinkedIn appeared to be the most expensive and lowest-performing channel in the mix — leading the team to cut spend entirely.",
+  "strategy": "I established weekly syncs across two tracks: internally with the Sales pod, Product, and Measurement teams to align on how to prove ROAS; externally with the ad agency to audit the original campaign setup and share high-level insights at each touchpoint. We identified LinkedIn's attribution script — which joins CRM data with member-level exposure data to trace the full purchase funnel — as the right solution. The analysis normally carries a 4-week SLA. Given the urgency of the paused spend, I prioritized a 3-day turnaround.",
+  "result": "The analysis showed that 30% of all closed-won revenue had been influenced by LinkedIn exposure — up from the 0% the client had previously measured. It also revealed that the buying cycle for LinkedIn-exposed prospects was 90 days versus 156 days for unexposed prospects, a 42% reduction. With clear ROAS evidence in hand, the client reinstated their full $500K quarterly budget and the sales team was able to close a critical revenue gap.",
+  "takeaway": "Cross-functional partnership was essential — without alignment across Sales, Product, Measurement, and the agency, this analysis never gets prioritized or trusted. Being the strategy SME in the room built credibility on both sides. Equally important: I didn't just pull the data and build a deck. I walked the client through the findings and provided clear recommendations on how to move forward, which made the difference between a report and a decision."
+}
