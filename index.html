@@ -546,7 +546,7 @@ async function loadCaseStudies() {
 async function loadRecommendations() {
   const BASE = 'https://raw.githubusercontent.com/jsco424/jscott_insights.github.io/main/recommendations/';
   // To add a recommendation: drop a JSON file in /recommendations/ and add the filename here
-  const FILES = [];
+  const FILES = ['test-recommendation.json'];
   const container = document.getElementById('rec-container');
   container.innerHTML = '';
   if (!FILES.length) {
