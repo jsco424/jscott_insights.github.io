@@ -132,7 +132,7 @@
     .cs-toggle { background: none; border: 1px solid var(--border); color: var(--accent); font-size: 0.78rem; font-weight: 600; padding: 0.45rem 1rem; border-radius: 6px; cursor: pointer; margin-top: 1.2rem; transition: border-color 0.2s, background 0.2s; }
     .cs-toggle:hover { border-color: var(--accent); background: rgba(0,198,167,0.06); }
 
-    /* RECOMMENDATIONS */
+    /* RECOMMENDATIONS (hidden for now) */
     .rec-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.8rem; margin-bottom: 1.2rem; position: relative; }
     .rec-card::before { content: '\201C'; position: absolute; top: 1rem; left: 1.4rem; font-size: 3rem; color: var(--accent); opacity: 0.2; line-height: 1; font-family: Georgia, serif; }
     .rec-quote { font-size: 0.92rem; color: #ccc; line-height: 1.8; margin-bottom: 1.2rem; padding-top: 1rem; }
@@ -176,7 +176,9 @@
     <a href="#skills">Skills</a>
     <a href="#industries">Industries</a>
     <a href="#case-studies">Case Studies</a>
-    <!--<a href="#recommendations">Recommendations</a> -->
+    <!-- RECOMMENDATIONS NAV — uncomment when ready:
+    <a href="#recommendations">Recommendations</a>
+    -->
     <a href="#projects">Projects</a>
     <a href="#contact">Contact</a>
   </div>
@@ -408,11 +410,12 @@
   <div id="cs-container"><p style="color:var(--muted);font-size:0.9rem;">Loading case studies...</p></div>
 </section>
 
-<!-- RECOMMENDATIONS -->
-<!--<section id="recommendations">
+<!-- RECOMMENDATIONS — uncomment entire block below when ready to publish:
+<section id="recommendations">
   <div class="section-label">Recommendations</div>
   <div id="rec-container"><p style="color:var(--muted);font-size:0.9rem;">Loading recommendations...</p></div>
-</section> -->
+</section>
+-->
 
 <!-- PROJECTS -->
 <section id="projects">
@@ -514,7 +517,6 @@ function skillsOnEnter(i) {
 // ── CASE STUDIES LOADER ──
 async function loadCaseStudies() {
   const BASE = 'https://raw.githubusercontent.com/jsco424/jscott_insights.github.io/main/case-studies/';
-  // To add a new case study: drop a JSON file in /case-studies/ and add the filename here
   const FILES = ['saas-attribution.json','agency-reporting.json'];
   const container = document.getElementById('cs-container');
   container.innerHTML = '';
@@ -542,39 +544,38 @@ async function loadCaseStudies() {
   });
 }
 
-// ── RECOMMENDATIONS LOADER ──
-async function loadRecommendations() {
-  const BASE = 'https://raw.githubusercontent.com/jsco424/jscott_insights.github.io/main/recommendations/';
-  // To add a recommendation: drop a JSON file in /recommendations/ and add the filename here
-  const FILES = ['test-recommendation.json'];
-  const container = document.getElementById('rec-container');
-  container.innerHTML = '';
-  if (!FILES.length) {
-    container.innerHTML = '<div class="rec-empty">Recommendations coming soon.</div>';
-    return;
-  }
-  const results = await Promise.allSettled(FILES.map(f=>fetch(BASE+f).then(r=>r.json())));
-  results.forEach(res => {
-    if (res.status!=='fulfilled') return;
-    const r = res.value;
-    const initials = r.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
-    const card = document.createElement('div');
-    card.className = 'rec-card';
-    card.innerHTML = `
-      <div class="rec-quote">${r.quote}</div>
-      <div class="rec-author">
-        <div class="rec-avatar">${initials}</div>
-        <div><div class="rec-name">${r.name}</div><div class="rec-role">${r.role}</div></div>
-      </div>`;
-    container.appendChild(card);
-  });
-}
+// ── RECOMMENDATIONS LOADER — uncomment when ready:
+// async function loadRecommendations() {
+//   const BASE = 'https://raw.githubusercontent.com/jsco424/jscott_insights.github.io/main/recommendations/';
+//   const FILES = ['test-recommendation.json'];
+//   const container = document.getElementById('rec-container');
+//   container.innerHTML = '';
+//   if (!FILES.length) {
+//     container.innerHTML = '<div class="rec-empty">Recommendations coming soon.</div>';
+//     return;
+//   }
+//   const results = await Promise.allSettled(FILES.map(f=>fetch(BASE+f).then(r=>r.json())));
+//   results.forEach(res => {
+//     if (res.status!=='fulfilled') return;
+//     const r = res.value;
+//     const initials = r.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
+//     const card = document.createElement('div');
+//     card.className = 'rec-card';
+//     card.innerHTML = `
+//       <div class="rec-quote">${r.quote}</div>
+//       <div class="rec-author">
+//         <div class="rec-avatar">${initials}</div>
+//         <div><div class="rec-name">${r.name}</div><div class="rec-role">${r.role}</div></div>
+//       </div>`;
+//     container.appendChild(card);
+//   });
+// }
 
 window.addEventListener('DOMContentLoaded', () => {
   makeSlideshow('sk', 5, skillsOnEnter);
   makeSlideshow('ind', 9, null);
   loadCaseStudies();
-  loadRecommendations();
+  // loadRecommendations(); // uncomment when ready
 });
 </script>
 </body>
