@@ -103,7 +103,19 @@
     .funnel-stage { border-radius: 4px; height: 28px; display: flex; align-items: center; justify-content: space-between; padding: 0 0.9rem; font-size: 0.72rem; transition: width 0.7s cubic-bezier(.4,0,.2,1); }
     .funnel-name { color: #000; font-weight: 700; } .funnel-val { color: #000; opacity: 0.65; }
     .skills-tags { display: flex; flex-wrap: wrap; gap: 0.55rem; margin-top: 0.5rem; }
-    .skill-tag { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 0.3rem 0.8rem; font-size: 0.8rem; color: #ccc; }
+    .skill-tag { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 0.3rem 0.8rem; font-size: 0.8rem; color: #ccc; cursor: pointer; transition: border-color 0.2s, color 0.2s; user-select: none; }
+    .skill-tag:hover { border-color: var(--accent); color: var(--text); }
+    .skill-tag.open { border-color: var(--accent); color: var(--accent); background: rgba(0,198,167,0.06); }
+    .skill-detail {
+      display: none; width: 100%; margin-top: 0.8rem;
+      background: var(--surface2); border: 1px solid var(--accent);
+      border-radius: 8px; padding: 1rem 1.2rem;
+      font-size: 0.85rem; color: #bbb; line-height: 1.7;
+      animation: fadeIn 0.2s ease;
+    }
+    .skill-detail.open { display: block; }
+    .skill-detail strong { color: var(--accent); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.1em; display: block; margin-bottom: 0.3rem; }
+    @keyframes fadeIn { from{opacity:0;transform:translateY(-4px)} to{opacity:1;transform:translateY(0)} }
 
     /* INDUSTRIES SLIDESHOW */
     .industry-slide-inner { display: flex; flex-direction: column; justify-content: center; height: 100%; }
@@ -200,6 +212,24 @@
     <div class="stat"><div class="stat-num">3</div><div class="stat-lbl">Enterprise Companies</div></div>
     <div class="stat"><div class="stat-num">SQL</div><div class="stat-lbl">Python · Tableau · Looker</div></div>
   </div>
+  <div class="skills-tags" id="hero-skills" style="margin-top:2.4rem;">
+    <span class="skill-tag" data-skill="SQL">SQL</span>
+    <span class="skill-tag" data-skill="Python">Python</span>
+    <span class="skill-tag" data-skill="Tableau">Tableau</span>
+    <span class="skill-tag" data-skill="Looker">Looker</span>
+    <span class="skill-tag" data-skill="Salesforce">Salesforce</span>
+    <span class="skill-tag" data-skill="GWI">GWI</span>
+    <span class="skill-tag" data-skill="Comscore">Comscore</span>
+    <span class="skill-tag" data-skill="Claude AI">Claude AI</span>
+    <span class="skill-tag" data-skill="GitHub Copilot">GitHub Copilot</span>
+    <span class="skill-tag" data-skill="Full-Funnel Analytics">Full-Funnel Analytics</span>
+    <span class="skill-tag" data-skill="Attribution Modeling">Attribution Modeling</span>
+    <span class="skill-tag" data-skill="Data Storytelling">Data Storytelling</span>
+    <span class="skill-tag" data-skill="Measurement Strategy">Measurement Strategy</span>
+    <span class="skill-tag" data-skill="Stakeholder Management">Stakeholder Management</span>
+    <span class="skill-tag" data-skill="Cross-Functional Leadership">Cross-Functional Leadership</span>
+  </div>
+  <div class="skill-detail" id="skill-detail-box"></div>
 </section>
 
 <!-- EXPERIENCE -->
@@ -424,9 +454,9 @@
     <div class="project-card">
       <div class="project-tag">Live App</div>
       <div class="project-icon">📊</div>
-      <h3>Am-pli</h3>
+      <h3>AMP-LI</h3>
       <p>A self-serve research tool for importing raw data and surfacing high-level insights and takeaways — built to accelerate the analyst workflow from data to decision.</p>
-      <a href="https://am-pli.com" target="_blank" class="project-link">Launch App →</a>
+      <a href="https://amp-li.org" target="_blank" class="project-link">Launch App →</a>
     </div>
     <div class="project-card">
       <div class="project-tag">GitHub</div>
@@ -461,6 +491,40 @@
 <button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to top">↑</button>
 
 <script>
+// ── SKILL TAGS ──
+const skillInfo = {
+  'SQL': 'Used daily to query large 1st-party datasets, build CTE-based reporting pipelines, and power dashboards across sales, marketing, and product analytics at LinkedIn.',
+  'Python': 'Applied for automating reporting workflows, data cleaning, and building analytics pipelines — including the Agency QBR automation that replaced manual weekly builds.',
+  'Tableau': 'Primary BI tool for building client-facing and internal dashboards, including the Agency Overview dashboard that replaced 20+ manual Salesforce pulls.',
+  'Looker': 'Used for stakeholder-facing metrics and self-serve analytics, enabling teams to explore performance data without analyst support.',
+  'Salesforce': 'Leveraged for CRM analytics, pipeline tracking, and account-level reporting — including integrating CRM data into attribution models to prove closed-won revenue influence.',
+  'GWI': 'Global consumer research platform used to build audience insights and personas for enterprise B2B clients across verticals.',
+  'Comscore': 'Used for audience measurement and media planning insights, particularly for validating reach and frequency in campaign analytics.',
+  'Claude AI': 'Integrated into analytics workflows for narrative generation, insight drafting, and accelerating the path from raw data to stakeholder-ready deliverables.',
+  'GitHub Copilot': 'Used alongside VS Code to accelerate SQL and Python development, reducing time spent on boilerplate and improving code consistency across projects.',
+  'Full-Funnel Analytics': 'Core competency spanning awareness through closed-won revenue — connecting top-of-funnel media exposure to bottom-of-funnel CRM outcomes for B2B clients.',
+  'Attribution Modeling': 'Built multi-touch attribution frameworks combining LinkedIn exposure data with client CRM records to prove ROAS and influence on closed-won revenue.',
+  'Data Storytelling': 'Translating complex datasets into clear, executive-ready narratives — a skill applied across client QBRs, leadership presentations, and agency deliverables.',
+  'Measurement Strategy': 'Designing end-to-end measurement frameworks for B2B marketing campaigns, from KPI selection through reporting cadence and stakeholder communication.',
+  'Stakeholder Management': 'Led cross-functional alignment across Sales, Product, Measurement, and agency partners — managing competing priorities across global time zones.',
+  'Cross-Functional Leadership': 'Drove large-scale analytics projects by building alignment across internal pods and external partners, consistently delivering on time without direct authority.'
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+  const box = document.getElementById('skill-detail-box');
+  document.querySelectorAll('#hero-skills .skill-tag').forEach(tag => {
+    tag.addEventListener('click', () => {
+      const skill = tag.dataset.skill;
+      const already = tag.classList.contains('open');
+      document.querySelectorAll('#hero-skills .skill-tag').forEach(t => t.classList.remove('open'));
+      if (already) { box.classList.remove('open'); return; }
+      tag.classList.add('open');
+      box.innerHTML = `<strong>${skill}</strong>${skillInfo[skill] || ''}`;
+      box.classList.add('open');
+    });
+  });
+});
+
 // ── BACK TO TOP ──
 window.addEventListener('scroll', () => {
   document.getElementById('back-top').classList.toggle('visible', window.scrollY > 400);
