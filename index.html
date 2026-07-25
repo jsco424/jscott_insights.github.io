@@ -106,13 +106,7 @@
     .skill-tag { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; padding: 0.3rem 0.8rem; font-size: 0.8rem; color: #ccc; cursor: pointer; transition: border-color 0.2s, color 0.2s; user-select: none; }
     .skill-tag:hover { border-color: var(--accent); color: var(--text); }
     .skill-tag.open { border-color: var(--accent); color: var(--accent); background: rgba(0,198,167,0.06); }
-    .skill-detail {
-      display: none; width: 100%; margin-top: 0.8rem;
-      background: var(--surface2); border: 1px solid var(--accent);
-      border-radius: 8px; padding: 1rem 1.2rem;
-      font-size: 0.85rem; color: #bbb; line-height: 1.7;
-      animation: fadeIn 0.2s ease;
-    }
+    .skill-detail { display: none; width: 100%; margin-top: 0.8rem; background: var(--surface2); border: 1px solid var(--accent); border-radius: 8px; padding: 1rem 1.2rem; font-size: 0.85rem; color: #bbb; line-height: 1.7; animation: fadeIn 0.2s ease; }
     .skill-detail.open { display: block; }
     .skill-detail strong { color: var(--accent); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.1em; display: block; margin-bottom: 0.3rem; }
     @keyframes fadeIn { from{opacity:0;transform:translateY(-4px)} to{opacity:1;transform:translateY(0)} }
@@ -144,15 +138,14 @@
     .cs-toggle { background: none; border: 1px solid var(--border); color: var(--accent); font-size: 0.78rem; font-weight: 600; padding: 0.45rem 1rem; border-radius: 6px; cursor: pointer; margin-top: 1.2rem; transition: border-color 0.2s, background 0.2s; }
     .cs-toggle:hover { border-color: var(--accent); background: rgba(0,198,167,0.06); }
 
-    /* RECOMMENDATIONS (hidden for now) */
-    .rec-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.8rem; margin-bottom: 1.2rem; position: relative; }
-    .rec-card::before { content: '\201C'; position: absolute; top: 1rem; left: 1.4rem; font-size: 3rem; color: var(--accent); opacity: 0.2; line-height: 1; font-family: Georgia, serif; }
-    .rec-quote { font-size: 0.92rem; color: #ccc; line-height: 1.8; margin-bottom: 1.2rem; padding-top: 1rem; }
+    /* RECOMMENDATIONS */
+    .rec-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 1.2rem; }
+    .rec-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.8rem; position: relative; }
+    .rec-card::before { content: '\201C'; position: absolute; top: 1rem; left: 1.4rem; font-size: 3rem; color: var(--accent); opacity: 0.15; line-height: 1; font-family: Georgia, serif; }
+    .rec-quote { font-size: 0.88rem; color: #ccc; line-height: 1.8; margin-bottom: 1.2rem; padding-top: 1.2rem; }
     .rec-author { display: flex; align-items: center; gap: 0.8rem; }
-    .rec-avatar { width: 36px; height: 36px; border-radius: 50%; background: rgba(0,198,167,0.15); border: 1px solid rgba(0,198,167,0.2); display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; color: var(--accent); }
-    .rec-name { font-size: 0.85rem; font-weight: 700; }
-    .rec-role { font-size: 0.75rem; color: var(--muted); }
-    .rec-empty { color: var(--muted); font-size: 0.9rem; padding: 2rem; background: var(--surface); border: 1px dashed var(--border); border-radius: 12px; text-align: center; }
+    .rec-avatar { width: 34px; height: 34px; border-radius: 50%; background: rgba(0,198,167,0.12); border: 1px solid rgba(0,198,167,0.2); display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700; color: var(--accent); flex-shrink: 0; }
+    .rec-role { font-size: 0.78rem; color: var(--muted); }
 
     /* PROJECTS */
     .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.2rem; }
@@ -188,9 +181,7 @@
     <a href="#skills">Skills</a>
     <a href="#industries">Industries</a>
     <a href="#case-studies">Case Studies</a>
-    <!-- RECOMMENDATIONS NAV — uncomment when ready:
     <a href="#recommendations">Recommendations</a>
-    -->
     <a href="#projects">Projects</a>
     <a href="#contact">Contact</a>
   </div>
@@ -358,67 +349,31 @@
   <div class="section-label">Industries</div>
   <div class="slideshow-wrap" id="ind-show">
     <div class="slide active" id="ind-0">
-      <div class="industry-slide-inner">
-        <div class="industry-icon">💻</div>
-        <div class="industry-name">Technology</div>
-        <div class="industry-desc">Partnered with global tech companies to measure campaign effectiveness, optimize media spend, and build scalable analytics infrastructure.</div>
-      </div>
+      <div class="industry-slide-inner"><div class="industry-icon">💻</div><div class="industry-name">Technology</div><div class="industry-desc">Partnered with global tech companies to measure campaign effectiveness, optimize media spend, and build scalable analytics infrastructure.</div></div>
     </div>
     <div class="slide" id="ind-1">
-      <div class="industry-slide-inner">
-        <div class="industry-icon">🏦</div>
-        <div class="industry-name">Fintech</div>
-        <div class="industry-desc">Delivered data-driven measurement solutions for fintech brands navigating complex B2B buying cycles and compliance-sensitive marketing environments.</div>
-      </div>
+      <div class="industry-slide-inner"><div class="industry-icon">🏦</div><div class="industry-name">Fintech</div><div class="industry-desc">Delivered data-driven measurement solutions for fintech brands navigating complex B2B buying cycles and compliance-sensitive marketing environments.</div></div>
     </div>
     <div class="slide" id="ind-2">
-      <div class="industry-slide-inner">
-        <div class="industry-icon">🏛️</div>
-        <div class="industry-name">Government</div>
-        <div class="industry-desc">Supported government-adjacent organizations with audience insights and strategic analytics for public-sector awareness and outreach campaigns.</div>
-      </div>
+      <div class="industry-slide-inner"><div class="industry-icon">🏛️</div><div class="industry-name">Government</div><div class="industry-desc">Supported government-adjacent organizations with audience insights and strategic analytics for public-sector awareness and outreach campaigns.</div></div>
     </div>
     <div class="slide" id="ind-3">
-      <div class="industry-slide-inner">
-        <div class="industry-icon">🎓</div>
-        <div class="industry-name">Education</div>
-        <div class="industry-desc">Provided analytics and measurement strategy for higher education and edtech clients focused on enrollment marketing and student acquisition funnels.</div>
-      </div>
+      <div class="industry-slide-inner"><div class="industry-icon">🎓</div><div class="industry-name">Education</div><div class="industry-desc">Provided analytics and measurement strategy for higher education and edtech clients focused on enrollment marketing and student acquisition funnels.</div></div>
     </div>
     <div class="slide" id="ind-4">
-      <div class="industry-slide-inner">
-        <div class="industry-icon">☁️</div>
-        <div class="industry-name">SaaS</div>
-        <div class="industry-desc">Built attribution models and full-funnel measurement frameworks for SaaS clients with long sales cycles and complex multi-touch buyer journeys.</div>
-      </div>
+      <div class="industry-slide-inner"><div class="industry-icon">☁️</div><div class="industry-name">SaaS</div><div class="industry-desc">Built attribution models and full-funnel measurement frameworks for SaaS clients with long sales cycles and complex multi-touch buyer journeys.</div></div>
     </div>
     <div class="slide" id="ind-5">
-      <div class="industry-slide-inner">
-        <div class="industry-icon">🏢</div>
-        <div class="industry-name">Enterprise</div>
-        <div class="industry-desc">Led strategic insights delivery for Fortune 500 enterprise accounts, translating large-scale data into executive-ready narratives and investment decisions.</div>
-      </div>
+      <div class="industry-slide-inner"><div class="industry-icon">🏢</div><div class="industry-name">Enterprise</div><div class="industry-desc">Led strategic insights delivery for Fortune 500 enterprise accounts, translating large-scale data into executive-ready narratives and investment decisions.</div></div>
     </div>
     <div class="slide" id="ind-6">
-      <div class="industry-slide-inner">
-        <div class="industry-icon">📣</div>
-        <div class="industry-name">Advertising Agencies</div>
-        <div class="industry-desc">Served as the primary analytics partner for independent and boutique agencies, building tooling and frameworks that elevated their measurement capabilities.</div>
-      </div>
+      <div class="industry-slide-inner"><div class="industry-icon">📣</div><div class="industry-name">Advertising Agencies</div><div class="industry-desc">Served as the primary analytics partner for independent and boutique agencies, building tooling and frameworks that elevated their measurement capabilities.</div></div>
     </div>
     <div class="slide" id="ind-7">
-      <div class="industry-slide-inner">
-        <div class="industry-icon">🌐</div>
-        <div class="industry-name">Holding Companies</div>
-        <div class="industry-desc">Developed agency-level reporting infrastructure for global holding companies, enabling portfolio-wide performance visibility across dozens of client accounts.</div>
-      </div>
+      <div class="industry-slide-inner"><div class="industry-icon">🌐</div><div class="industry-name">Holding Companies</div><div class="industry-desc">Developed agency-level reporting infrastructure for global holding companies, enabling portfolio-wide performance visibility across dozens of client accounts.</div></div>
     </div>
     <div class="slide" id="ind-8">
-      <div class="industry-slide-inner">
-        <div class="industry-icon">🏥</div>
-        <div class="industry-name">Healthcare</div>
-        <div class="industry-desc">Delivered audience insights and campaign analytics for healthcare brands operating in highly regulated, compliance-driven marketing environments.</div>
-      </div>
+      <div class="industry-slide-inner"><div class="industry-icon">🏥</div><div class="industry-name">Healthcare</div><div class="industry-desc">Delivered audience insights and campaign analytics for healthcare brands operating in highly regulated, compliance-driven marketing environments.</div></div>
     </div>
   </div>
   <div class="slide-controls">
@@ -440,12 +395,11 @@
   <div id="cs-container"><p style="color:var(--muted);font-size:0.9rem;">Loading case studies...</p></div>
 </section>
 
-<!-- RECOMMENDATIONS — uncomment entire block below when ready to publish:
+<!-- RECOMMENDATIONS -->
 <section id="recommendations">
   <div class="section-label">Recommendations</div>
   <div id="rec-container"><p style="color:var(--muted);font-size:0.9rem;">Loading recommendations...</p></div>
 </section>
--->
 
 <!-- PROJECTS -->
 <section id="projects">
@@ -487,7 +441,6 @@
 </section>
 
 <footer>James Scott · Built with HTML & CSS · Hosted on GitHub Pages</footer>
-
 <button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Back to top">↑</button>
 
 <script>
@@ -608,38 +561,44 @@ async function loadCaseStudies() {
   });
 }
 
-// ── RECOMMENDATIONS LOADER — uncomment when ready:
-// async function loadRecommendations() {
-//   const BASE = 'https://raw.githubusercontent.com/jsco424/jscott_insights.github.io/main/recommendations/';
-//   const FILES = ['test-recommendation.json'];
-//   const container = document.getElementById('rec-container');
-//   container.innerHTML = '';
-//   if (!FILES.length) {
-//     container.innerHTML = '<div class="rec-empty">Recommendations coming soon.</div>';
-//     return;
-//   }
-//   const results = await Promise.allSettled(FILES.map(f=>fetch(BASE+f).then(r=>r.json())));
-//   results.forEach(res => {
-//     if (res.status!=='fulfilled') return;
-//     const r = res.value;
-//     const initials = r.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
-//     const card = document.createElement('div');
-//     card.className = 'rec-card';
-//     card.innerHTML = `
-//       <div class="rec-quote">${r.quote}</div>
-//       <div class="rec-author">
-//         <div class="rec-avatar">${initials}</div>
-//         <div><div class="rec-name">${r.name}</div><div class="rec-role">${r.role}</div></div>
-//       </div>`;
-//     container.appendChild(card);
-//   });
-// }
+// ── RECOMMENDATIONS LOADER ──
+async function loadRecommendations() {
+  const BASE = 'https://raw.githubusercontent.com/jsco424/jscott_insights.github.io/main/recommendations/';
+  // To add a new recommendation: drop a JSON file in /recommendations/ and add the filename here
+  const FILES = [
+    'evp-limelight.json',
+    'sales-dev-gsou.json',
+    'sales-advertising-pshc.json',
+    'sales-advertising-tech.json',
+    'enterprise-ventures.json'
+  ];
+  const container = document.getElementById('rec-container');
+  container.innerHTML = '';
+  const results = await Promise.allSettled(FILES.map(f=>fetch(BASE+f).then(r=>r.json())));
+  const cards = results.filter(r=>r.status==='fulfilled').map(r=>r.value);
+  if (!cards.length) { container.innerHTML = '<div style="color:var(--muted);font-size:0.9rem;">No recommendations found.</div>'; return; }
+  const grid = document.createElement('div');
+  grid.className = 'rec-grid';
+  cards.forEach(r => {
+    const initials = r.role.split(' ').map(w=>w[0]).filter(c=>/[A-Z]/i.test(c)).slice(0,2).join('').toUpperCase();
+    const card = document.createElement('div');
+    card.className = 'rec-card';
+    card.innerHTML = `
+      <div class="rec-quote">${r.quote}</div>
+      <div class="rec-author">
+        <div class="rec-avatar">${initials}</div>
+        <div class="rec-role">${r.role}</div>
+      </div>`;
+    grid.appendChild(card);
+  });
+  container.appendChild(grid);
+}
 
 window.addEventListener('DOMContentLoaded', () => {
   makeSlideshow('sk', 5, skillsOnEnter);
   makeSlideshow('ind', 9, null);
   loadCaseStudies();
-  // loadRecommendations(); // uncomment when ready
+  loadRecommendations();
 });
 </script>
 </body>
