@@ -563,35 +563,28 @@ async function loadCaseStudies() {
 
 // ── RECOMMENDATIONS LOADER ──
 async function loadRecommendations() {
-  const BASE = 'https://raw.githubusercontent.com/jsco424/jscott_insights.github.io/main/recommendations/';
-  // To add a new recommendation: drop a JSON file in /recommendations/ and add the filename here
-  const FILES = [
-    'evp-limelight.json',
-    'sales-dev-gsou.json',
-    'sales-advertising-pshc.json',
-    'sales-advertising-tech.json',
-    'enterprise-ventures.json'
-  ];
+  const URL = 'https://raw.githubusercontent.com/jsco424/jscott_insights.github.io/main/recommendations/recommendations.json';
   const container = document.getElementById('rec-container');
   container.innerHTML = '';
-  const results = await Promise.allSettled(FILES.map(f=>fetch(BASE+f).then(r=>r.json())));
-  const cards = results.filter(r=>r.status==='fulfilled').map(r=>r.value);
-  if (!cards.length) { container.innerHTML = '<div style="color:var(--muted);font-size:0.9rem;">No recommendations found.</div>'; return; }
-  const grid = document.createElement('div');
-  grid.className = 'rec-grid';
-  cards.forEach(r => {
-    const initials = r.role.split(' ').map(w=>w[0]).filter(c=>/[A-Z]/i.test(c)).slice(0,2).join('').toUpperCase();
-    const card = document.createElement('div');
-    card.className = 'rec-card';
-    card.innerHTML = `
-      <div class="rec-quote">${r.quote}</div>
-      <div class="rec-author">
-        <div class="rec-avatar">${initials}</div>
-        <div class="rec-role">${r.role}</div>
-      </div>`;
-    grid.appendChild(card);
-  });
-  container.appendChild(grid);
+  try {
+    const cards = await fetch(URL).then(r=>r.json());
+    if (!cards.length) { container.innerHTML = '<div style="color:var(--muted);font-size:0.9rem;">No recommendations found.</div>'; return; }
+    const grid = document.createElement('div');
+    grid.className = 'rec-grid';
+    cards.forEach(r => {
+      const initials = r.role.split(' ').map(w=>w[0]).filter(c=>/[A-Z]/i.test(c)).slice(0,2).join('').toUpperCase();
+      const card = document.createElement('div');
+      card.className = 'rec-card';
+      card.innerHTML = `
+        <div class="rec-quote">${r.quote}</div>
+        <div class="rec-author">
+          <div class="rec-avatar">${initials}</div>
+          <div class="rec-role">${r.role}</div>
+        </div>`;
+      grid.appendChild(card);
+    });
+    container.appendChild(grid);
+  } catch(e) { container.innerHTML = '<div style="color:var(--muted);font-size:0.9rem;">Could not load recommendations.</div>'; }
 }
 
 window.addEventListener('DOMContentLoaded', () => {
