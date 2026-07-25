@@ -139,13 +139,21 @@
     .cs-toggle:hover { border-color: var(--accent); background: rgba(0,198,167,0.06); }
 
     /* RECOMMENDATIONS */
-    .rec-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 1.2rem; }
-    .rec-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 1.8rem; position: relative; }
-    .rec-card::before { content: '\201C'; position: absolute; top: 1rem; left: 1.4rem; font-size: 3rem; color: var(--accent); opacity: 0.15; line-height: 1; font-family: Georgia, serif; }
-    .rec-quote { font-size: 0.88rem; color: #ccc; line-height: 1.8; margin-bottom: 1.2rem; padding-top: 1.2rem; }
+    .rec-carousel { position: relative; background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 2.4rem 4rem; min-height: 180px; display: flex; align-items: center; }
+    .rec-carousel::before { content: '\201C'; position: absolute; top: 1rem; left: 1.8rem; font-size: 4rem; color: var(--accent); opacity: 0.12; line-height: 1; font-family: Georgia, serif; pointer-events: none; }
+    .rec-slide { display: none; flex-direction: column; justify-content: center; width: 100%; animation: fadeIn 0.35s ease; }
+    .rec-slide.active { display: flex; }
+    .rec-quote { font-size: 0.92rem; color: #ccc; line-height: 1.85; margin-bottom: 1.4rem; padding-top: 0.8rem; }
     .rec-author { display: flex; align-items: center; gap: 0.8rem; }
     .rec-avatar { width: 34px; height: 34px; border-radius: 50%; background: rgba(0,198,167,0.12); border: 1px solid rgba(0,198,167,0.2); display: flex; align-items: center; justify-content: center; font-size: 0.7rem; font-weight: 700; color: var(--accent); flex-shrink: 0; }
     .rec-role { font-size: 0.78rem; color: var(--muted); }
+    .rec-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: var(--surface2); border: 1px solid var(--border); color: var(--accent); width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1rem; transition: border-color 0.2s, background 0.2s; z-index: 2; }
+    .rec-arrow:hover { border-color: var(--accent); background: rgba(0,198,167,0.08); }
+    .rec-arrow.left { left: 0.8rem; }
+    .rec-arrow.right { right: 0.8rem; }
+    .rec-dots { display: flex; justify-content: center; gap: 6px; margin-top: 1.2rem; }
+    .rec-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--border); cursor: pointer; transition: background 0.3s; }
+    .rec-dot.active { background: var(--accent); }
 
     /* PROJECTS */
     .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1.2rem; }
@@ -567,23 +575,39 @@ async function loadRecommendations() {
   const container = document.getElementById('rec-container');
   container.innerHTML = '';
   try {
-    const cards = await fetch(URL).then(r=>r.json());
-    if (!cards.length) { container.innerHTML = '<div style="color:var(--muted);font-size:0.9rem;">No recommendations found.</div>'; return; }
-    const grid = document.createElement('div');
-    grid.className = 'rec-grid';
-    cards.forEach(r => {
-      const initials = r.role.split(' ').map(w=>w[0]).filter(c=>/[A-Z]/i.test(c)).slice(0,2).join('').toUpperCase();
-      const card = document.createElement('div');
-      card.className = 'rec-card';
-      card.innerHTML = `
-        <div class="rec-quote">${r.quote}</div>
-        <div class="rec-author">
-          <div class="rec-avatar">${initials}</div>
-          <div class="rec-role">${r.role}</div>
+    const items = await fetch(URL).then(r=>r.json());
+    if (!items.length) { container.innerHTML = '<div style="color:var(--muted);font-size:0.9rem;">No recommendations found.</div>'; return; }
+    let cur = 0;
+    const carousel = document.createElement('div');
+    carousel.className = 'rec-carousel';
+    carousel.innerHTML = `
+      <button class="rec-arrow left" id="rec-prev">&#8592;</button>
+      <button class="rec-arrow right" id="rec-next">&#8594;</button>
+      ${items.map((r,i) => {
+        const initials = r.role.split(' ').map(w=>w[0]).filter(c=>/[A-Z]/i.test(c)).slice(0,2).join('').toUpperCase();
+        return `<div class="rec-slide${i===0?' active':''}">
+          <div class="rec-quote">${r.quote}</div>
+          <div class="rec-author">
+            <div class="rec-avatar">${initials}</div>
+            <div class="rec-role">${r.role}</div>
+          </div>
         </div>`;
-      grid.appendChild(card);
-    });
-    container.appendChild(grid);
+      }).join('')}`;
+    const dotsWrap = document.createElement('div');
+    dotsWrap.className = 'rec-dots';
+    dotsWrap.innerHTML = items.map((_,i) => `<div class="rec-dot${i===0?' active':''}" data-i="${i}"></div>`).join('');
+    container.appendChild(carousel);
+    container.appendChild(dotsWrap);
+    const slides = carousel.querySelectorAll('.rec-slide');
+    const dots = dotsWrap.querySelectorAll('.rec-dot');
+    function goTo(n) {
+      slides[cur].classList.remove('active'); dots[cur].classList.remove('active');
+      cur = (n + items.length) % items.length;
+      slides[cur].classList.add('active'); dots[cur].classList.add('active');
+    }
+    carousel.querySelector('#rec-prev').onclick = () => goTo(cur - 1);
+    carousel.querySelector('#rec-next').onclick = () => goTo(cur + 1);
+    dots.forEach(d => d.onclick = () => goTo(+d.dataset.i));
   } catch(e) { container.innerHTML = '<div style="color:var(--muted);font-size:0.9rem;">Could not load recommendations.</div>'; }
 }
 
