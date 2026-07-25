@@ -521,12 +521,14 @@ function makeSlideshow(prefix, total, onEnter) {
 }
 
 // ── SKILLS ANIMATIONS ──
-function skillsOnEnter(i) {
-  if (i===1) {
+function animateBars() {
     document.querySelectorAll('#tableau-bars .bar').forEach((b,idx) => {
       b.style.height='0%'; setTimeout(()=>{ b.style.height=b.dataset.h; }, idx*80);
     });
   }
+
+  function skillsOnEnter(i) {
+    if (i===1) animateBars();
   if (i===3) {
     [{el:'m1',end:4.2,fmt:v=>'$'+v.toFixed(1)+'M'},{el:'m2',end:18.4,fmt:v=>v.toFixed(1)+'%'},{el:'m3',end:312,fmt:v=>Math.round(v)+''}].forEach(t=>{
       let s=0,iv=setInterval(()=>{ s++; document.getElementById(t.el).textContent=t.fmt(t.end*(s/40)); if(s>=40)clearInterval(iv); },28);
@@ -616,6 +618,8 @@ window.addEventListener('DOMContentLoaded', () => {
   makeSlideshow('ind', 9, null);
   loadCaseStudies();
   loadRecommendations();
+  // Pre-animate Tableau bars in case it loads as active slide
+  setTimeout(animateBars, 300);
 });
 </script>
 </body>
